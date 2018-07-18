@@ -1,0 +1,470 @@
+{
+	"info": {
+		"_postman_id": "b8bb02ae-2a84-4ff4-8bd1-e6fc94b79e21",
+		"name": "AirPortTwst",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tests",
+			"description": "",
+			"item": [
+				{
+					"name": "Ticket_Get_ID_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ec8b921c-b505-4275-addd-e26d6d7c2727",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var expected =",
+									"{",
+									"    \"flightId\": 1,",
+									"    \"flightNumber\": \"QW11\",",
+									"    \"price\": 200,",
+									"    \"plaseNumber\": 2,",
+									"    \"isSold\": false,",
+									"    \"id\": 2",
+									"}",
+									"",
+									"pm.test(\"Your test name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql(expected);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:5000/api/Tickets/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Tickets",
+								"2"
+							]
+						},
+						"description": "Ticket_Get_ID_2"
+					},
+					"response": []
+				},
+				{
+					"name": "Get_All_Stewardesses",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da8d46af-7d82-41e2-bca5-7145e3cdd7da",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:5000/api/Stewardesses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Stewardesses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_Stewardesses_ID_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ab4e47e5-ff14-41f8-aee3-c648fb065e21",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Status code is 404\", function () {",
+									"pm.sendRequest(\"http://localhost:5000/api/Stewardesses/5\", function (err, response) {",
+									"    pm.response.to.have.status(404);",
+									"})});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"crewId\": 1,\n    \"firstName\": \"Ira333\",\n    \"lastName\": \"Ivanova\",\n    \"birthday\": \"1987-01-24T00:00:00\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Stewardesses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Stewardesses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post_Stewardesses_Ira333",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bd468882-377a-457a-a57d-14e4be80b03d",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"crewId\": 1,\n    \"firstName\": \"Ira333\",\n    \"lastName\": \"Ivanova\",\n    \"birthday\": \"1987-01-24T00:00:00\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Stewardesses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Stewardesses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ticket_BUY_ID_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "096bd202-37e7-4781-87bc-74b3d8e8d845",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var expected =",
+									"{",
+									"    \"flightId\": 1,",
+									"    \"flightNumber\": \"QW11\",",
+									"    \"price\": 200,",
+									"    \"plaseNumber\": 2,",
+									"    \"isSold\": true,",
+									"    \"id\": 2",
+									"}",
+									"",
+									"pm.test(\"Buy_Ticket_id_2\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql(expected);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"flightId\": 1,\n    \"flightNumber\": \"QW11\",\n    \"price\": 200,\n    \"plaseNumber\": 2,\n    \"isSold\": true,\n    \"id\": 2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Tickets/bay/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Tickets",
+								"bay",
+								"2"
+							]
+						},
+						"description": "TicketID=2"
+					},
+					"response": []
+				},
+				{
+					"name": "Ticket_Return_ID_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "74ac514f-4381-4e65-a775-4c5724d6af1e",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var expected =",
+									"{",
+									"    \"flightId\": 1,",
+									"    \"flightNumber\": \"QW11\",",
+									"    \"price\": 200,",
+									"    \"plaseNumber\": 2,",
+									"    \"isSold\": false,",
+									"    \"id\": 2",
+									"}",
+									"",
+									"pm.test(\"Buy_Ticket_id_2\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql(expected);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"flightId\": 1,\n    \"flightNumber\": \"QW11\",\n    \"price\": 200,\n    \"plaseNumber\": 2,\n    \"isSold\": true,\n    \"id\": 2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Tickets/return/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Tickets",
+								"return",
+								"2"
+							]
+						},
+						"description": "TicketID=2"
+					},
+					"response": []
+				},
+				{
+					"name": "Ticket_Free_ on_QW11_on_date_2018-07-13_ID_2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "53a8cdd0-54e6-4796-b8cc-94a277651f69",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var expected =",
+									"[",
+									"    {",
+									"        \"flightId\": 1,",
+									"        \"flightNumber\": \"QW11\",",
+									"        \"price\": 200,",
+									"        \"plaseNumber\": 1,",
+									"        \"isSold\": false,",
+									"        \"id\": 1",
+									"    },",
+									"    {",
+									"        \"flightId\": 1,",
+									"        \"flightNumber\": \"QW11\",",
+									"        \"price\": 200,",
+									"        \"plaseNumber\": 2,",
+									"        \"isSold\": false,",
+									"        \"id\": 2",
+									"    },",
+									"    {",
+									"        \"flightId\": 1,",
+									"        \"flightNumber\": \"QW11\",",
+									"        \"price\": 200,",
+									"        \"plaseNumber\": 3,",
+									"        \"isSold\": false,",
+									"        \"id\": 3",
+									"    },",
+									"    {",
+									"        \"flightId\": 1,",
+									"        \"flightNumber\": \"QW11\",",
+									"        \"price\": 200,",
+									"        \"plaseNumber\": 4,",
+									"        \"isSold\": false,",
+									"        \"id\": 4",
+									"    },",
+									"    {",
+									"        \"flightId\": 1,",
+									"        \"flightNumber\": \"QW11\",",
+									"        \"price\": 200,",
+									"        \"plaseNumber\": 5,",
+									"        \"isSold\": false,",
+									"        \"id\": 5",
+									"    },",
+									"    {",
+									"        \"flightId\": 1,",
+									"        \"flightNumber\": \"QW11\",",
+									"        \"price\": 200,",
+									"        \"plaseNumber\": 6,",
+									"        \"isSold\": false,",
+									"        \"id\": 6",
+									"    },",
+									"    {",
+									"        \"flightId\": 1,",
+									"        \"flightNumber\": \"QW11\",",
+									"        \"price\": 200,",
+									"        \"plaseNumber\": 7,",
+									"        \"isSold\": false,",
+									"        \"id\": 7",
+									"    },",
+									"    {",
+									"        \"flightId\": 1,",
+									"        \"flightNumber\": \"QW11\",",
+									"        \"price\": 200,",
+									"        \"plaseNumber\": 8,",
+									"        \"isSold\": false,",
+									"        \"id\": 8",
+									"    }",
+									"]",
+									"",
+									"pm.test(\"Buy_Ticket_id_2\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.eql(expected);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"flightId\": 1,\n    \"flightNumber\": \"QW11\",\n    \"price\": 200,\n    \"plaseNumber\": 2,\n    \"isSold\": true,\n    \"id\": 2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/Tickets/QW11/2018-07-13T08:22:56.6404304+03:00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Tickets",
+								"QW11",
+								"2018-07-13T08:22:56.6404304+03:00"
+							]
+						},
+						"description": "TicketID=2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "http://localhost:5000/api/Tickets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "220dd658-5651-478f-9724-18aa9f07a1d0",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Some test name', function () {",
+							"\tpm.response.to.have.status(200);",
+							"\tpm.expect(pm.response.responseTime).to.be.below(400);",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/Tickets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"Tickets"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
