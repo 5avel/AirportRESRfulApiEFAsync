@@ -3,6 +3,7 @@ using AirportRESRfulApi.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AirportRESRfulApi.Controllers
 {
@@ -17,15 +18,15 @@ namespace AirportRESRfulApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_stewardessesSrvice.Get());
+            return Ok(await _stewardessesSrvice.GetAllAsync());
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var entity = _stewardessesSrvice.GetById(id);
+            var entity = await _stewardessesSrvice.GetAsync(id);
 
             if (entity == null) return NotFound();
 
@@ -33,23 +34,30 @@ namespace AirportRESRfulApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] StewardessDto entity)
+        public async Task<IActionResult> Post([FromBody] StewardessDto entity)
         {
-            _stewardessesSrvice.Make(entity);
-            return Ok();
+            var result = await _stewardessesSrvice.AddAsync(entity);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] StewardessDto entity)
+        public async Task<IActionResult> Put(int id, [FromBody] StewardessDto entity)
         {
-            _stewardessesSrvice.Update(entity);
-            return Ok();
+            var result = await _stewardessesSrvice.UpdateAsync(entity, id);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody] StewardessDto entity)
         {
-            _stewardessesSrvice.Delete(id);
+            var result = await _stewardessesSrvice.DeleteAsync(entity);
+
             return Ok();
         }
     }

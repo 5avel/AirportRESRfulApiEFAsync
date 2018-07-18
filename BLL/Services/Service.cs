@@ -5,6 +5,7 @@ using AirportRESRfulApi.Shared.DTO;
 using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AirportRESRfulApi.BLL.Services
 {
@@ -22,38 +23,48 @@ namespace AirportRESRfulApi.BLL.Services
             _mapper = mapper;
         }
 
-        public virtual void Delete(int id)
+        public virtual async Task<TEntityDto> AddAsync(TEntityDto entity)
         {
-            _repository.Delete(id);
-            _unitOfWork.SaveChages();
+            TEntity makingEntity = _mapper.Map<TEntityDto, TEntity>(entity);
+            TEntity makedEntity = await _repository.AddAsync(makingEntity);
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<TEntity, TEntityDto>(makedEntity);
         }
 
-        public virtual IEnumerable<TEntityDto> Get()
+        public virtual async Task<int> DeleteAsync(TEntityDto entity)
         {
-            var entity = _repository.Get();
-            return _mapper.Map<IEnumerable<TEntity>, IEnumerable<TEntityDto>>(entity);
+            TEntity deletingEntity = _mapper.Map<TEntityDto, TEntity>(entity);
+
+            var result = await _repository.DeleteAsync(deletingEntity);
+            var saveResult = await _unitOfWork.SaveChangesAsync();
+
+            return result;
         }
 
-        public virtual TEntityDto GetById(int id)
+        public virtual async Task<ICollection<TEntityDto>> GetAllAsync()
         {
-            var entity = _repository.Get(x => x.Id == id).SingleOrDefault();
-            return _mapper.Map<TEntity, TEntityDto>(entity);
+            var allEntity =  await _repository.GetAllAsync();
+            var result = _mapper.Map<ICollection<TEntity>, ICollection<TEntityDto>>(allEntity);
+            return result;
         }
 
-        public virtual void Make(TEntityDto entity)
+        public virtual async Task<TEntityDto> GetAsync(int id)
         {
-            var makedEntity = _mapper.Map<TEntityDto, TEntity>(entity);
-            _repository.Create(makedEntity);
-            _unitOfWork.SaveChages();
+            var entity = await _repository.GetAsync(id);
+            var result = _mapper.Map<TEntity, TEntityDto>(entity);
+            return result;
         }
 
-        public virtual void Update(TEntityDto entity)
+        public virtual async Task<TEntityDto> UpdateAsync(TEntityDto entity, int key)
         {
-            var updatedEntity = _mapper.Map<TEntityDto, TEntity>(entity);
-            _repository.Update(updatedEntity);
-            _unitOfWork.SaveChages();
+            TEntity updatingEntity = _mapper.Map<TEntityDto, TEntity>(entity);
+            TEntity udatedEntity = await _repository.UpdateAsync(updatingEntity, key);
 
+            var saveResult = await _unitOfWork.SaveChangesAsync();
 
+            return _mapper.Map<TEntity, TEntityDto>(udatedEntity);
         }
     }
 }

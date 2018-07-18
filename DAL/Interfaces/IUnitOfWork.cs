@@ -8,7 +8,7 @@ namespace AirportRESRfulApi.DAL.Interfaces
     {
         IRepository<TEntity> Set<TEntity>() where TEntity : Entity;
 
-        int SaveChages();
+        //int SaveChages();
 
         Task<int> SaveChangesAsync();
     }

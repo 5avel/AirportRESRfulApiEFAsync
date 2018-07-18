@@ -85,10 +85,10 @@ namespace AirportRESRfulApi.DAL
 
         public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
-            context.Set<TEntity>().Add(entity);
-            await context.SaveChangesAsync();
+            await context.Set<TEntity>().AddAsync(entity);
             return entity;
         }
+        
 
         public virtual async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> filter)
         {
@@ -102,8 +102,12 @@ namespace AirportRESRfulApi.DAL
 
         public virtual async Task<int> DeleteAsync(TEntity entity)
         {
-            context.Set<TEntity>().Remove(entity);
-            return await context.SaveChangesAsync();
+            if (entity == null) return 0;
+
+            TEntity exist = await context.Set<TEntity>().FindAsync(entity.Id);
+
+            context.Set<TEntity>().Remove(exist);
+            return entity.Id;
         }
 
         public virtual async Task<TEntity> UpdateAsync(TEntity entity, object key)

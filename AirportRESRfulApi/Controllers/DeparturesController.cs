@@ -3,6 +3,7 @@ using AirportRESRfulApi.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AirportRESRfulApi.Controllers
 {
@@ -16,44 +17,48 @@ namespace AirportRESRfulApi.Controllers
             _departuresSrvice = departuresSrvice;
         }
 
-        // GET api/Flights
+
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_departuresSrvice.Get());
+            return Ok(await _departuresSrvice.GetAllAsync());
         }
 
-        // GET api/Flights/2
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var ticket = _departuresSrvice.GetById(id);
+            var entity = await _departuresSrvice.GetAsync(id);
 
-            if (ticket == null) return NotFound();
+            if (entity == null) return NotFound();
 
-            return Ok(ticket);
+            return Ok(entity);
         }
 
-        // POST api/Flights
         [HttpPost]
-        public IActionResult Post([FromBody] DepartureDto entity)
+        public async Task<IActionResult> Post([FromBody] DepartureDto entity)
         {
-            _departuresSrvice.Make(entity);
-            return Ok();
+            var result = await _departuresSrvice.AddAsync(entity);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
-        // PUT api/Flights/2
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] DepartureDto entity)
+        public async Task<IActionResult> Put(int id, [FromBody] DepartureDto entity)
         {
-            _departuresSrvice.Update(entity);
-            return Ok();
+            var result = await _departuresSrvice.UpdateAsync(entity, id);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
-        // DELETE api/Flights/2
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete([FromBody] DepartureDto entity)
         {
+            var result = await _departuresSrvice.DeleteAsync(entity);
+
             return Ok();
         }
     }

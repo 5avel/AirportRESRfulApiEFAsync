@@ -1,6 +1,7 @@
 ﻿using AirportRESRfulApi.BLL.Interfaces;
 using AirportRESRfulApi.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace AirportRESRfulApi.Controllers
 {
@@ -15,39 +16,46 @@ namespace AirportRESRfulApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_pilotsSrvice.Get());
+            return Ok(await _pilotsSrvice.GetAllAsync());
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var ticket = _pilotsSrvice.GetById(id);
+            var entity = await _pilotsSrvice.GetAsync(id);
 
-            if (ticket == null) return NotFound();
+            if (entity == null) return NotFound();
 
-            return Ok(_pilotsSrvice.GetById(id));
+            return Ok(entity);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] PilotDto entity)
+        public async Task<IActionResult> Post([FromBody] PilotDto entity)
         {
-            _pilotsSrvice.Make(entity);
-            return Ok();
+            var result = await _pilotsSrvice.AddAsync(entity);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] PilotDto entity)
+        public async Task<IActionResult> Put(int id, [FromBody] PilotDto entity)
         {
-            _pilotsSrvice.Update(entity);
-            return Ok();
+            var result = await _pilotsSrvice.UpdateAsync(entity, id);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete([FromBody] PilotDto entity)
         {
-            _pilotsSrvice.Delete(id);
+            var result = await _pilotsSrvice.DeleteAsync(entity);
+
             return Ok();
         }
     }

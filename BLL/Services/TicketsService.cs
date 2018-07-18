@@ -8,6 +8,7 @@ using FluentValidation;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AirportRESRfulApi.BLL.Services
 {
@@ -19,40 +20,17 @@ namespace AirportRESRfulApi.BLL.Services
             _validator = validator;
         }
 
-        public TicketDto BuyById(int id)
+        public async Task<IEnumerable<TicketDto>> GetNotSoldSByFlightIdAndDateAsync(string flightNumber, DateTime flightDate)
         {
-            var entity = _repository.Get(x => x.Id == id).SingleOrDefault();
-
-            if (entity == null) return null;
-
-            if (entity.IsSold == true) return null; // Уже был продан
-
-            entity.IsSold = true;
-            _repository.Update(entity);
-            _unitOfWork.SaveChages();
-            return _mapper.Map<Ticket, TicketDto>(entity);
-        }
-
-        public IEnumerable<TicketDto> GetNotSoldSByFlightIdAndDate(string flightNumber, DateTime flightDate)
-        {
-            Flight flight = _unitOfWork.Set<Flight>().Get().Where(x => x.FlightNumber == flightNumber & x.DepartureTime == flightDate).FirstOrDefault();
+            Flight flight = await _unitOfWork.Set<Flight>().FindAsync(x => x.FlightNumber == flightNumber & x.DepartureTime == flightDate);
 
             if (flight == null) return null;
 
-            var entity = _repository.Get().Where(t => t.FlightId == flight.Id);
-            return _mapper.Map<IEnumerable<Ticket>, IEnumerable<TicketDto>>(entity);
+            var entitys = await _repository.FindAllAsync(t => t.FlightId == flight.Id);
+            return _mapper.Map<IEnumerable<Ticket>, IEnumerable<TicketDto>>(entitys);
         }
 
-        public bool Make(IEnumerable<TicketDto> entitys)
-        {
-            _validator.Validate(entitys);
-            var tickets = _mapper.Map<IEnumerable<TicketDto>, IEnumerable<Ticket>>(entitys);
-            _repository.Create(tickets);
-            _unitOfWork.SaveChages();
-            return true; 
-        }
-
-        public TicketDto ReturnById(int id)
+        public async Task<TicketDto> ReturnByIdAsync(int id)
         {
             var entity = _repository.Get(x => x.Id == id).SingleOrDefault();
 
@@ -61,9 +39,21 @@ namespace AirportRESRfulApi.BLL.Services
             if (entity.IsSold == false) return null;  // Уже был возвращен
 
             entity.IsSold = false;
-            _repository.Update(entity);
-            _unitOfWork.SaveChages();
-            return _mapper.Map<Ticket, TicketDto>(entity);
+            
+            return await base.UpdateAsync(_mapper.Map<Ticket, TicketDto>(entity), id);
+        }
+
+        public async Task<TicketDto> BuyByIdAsync(int id)
+        {
+            var entity = _repository.Get(x => x.Id == id).SingleOrDefault();
+
+            if (entity == null) return null;
+
+            if (entity.IsSold == true) return null; // Уже был продан
+
+            entity.IsSold = true;
+
+            return await base.UpdateAsync(_mapper.Map<Ticket, TicketDto>(entity), id);
         }
     }
 }

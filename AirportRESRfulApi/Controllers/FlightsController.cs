@@ -2,6 +2,7 @@
 using AirportRESRfulApi.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AirportRESRfulApi.Controllers
 {
@@ -16,38 +17,46 @@ namespace AirportRESRfulApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_flightsSrvice.Get());
+            return Ok(await _flightsSrvice.GetAllAsync());
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var ticket = _flightsSrvice.GetById(id);
+            var entity = await _flightsSrvice.GetAsync(id);
 
-            if (ticket == null) return NotFound();
+            if (entity == null) return NotFound();
 
-            return Ok(ticket);
+            return Ok(entity);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] FlightDto entity)
+        public async Task<IActionResult> Post([FromBody] FlightDto entity)
         {
-            _flightsSrvice.Make(entity);
-            return Ok();
+            var result = await _flightsSrvice.AddAsync(entity);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] FlightDto ticket)
+        public async Task<IActionResult> Put(int id, [FromBody] FlightDto entity)
         {
-            _flightsSrvice.Update(ticket);
-            return Ok();
+            var result = await _flightsSrvice.UpdateAsync(entity, id);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete([FromBody] FlightDto entity)
         {
+            var result = await _flightsSrvice.DeleteAsync(entity);
+
             return Ok();
         }
     }

@@ -2,6 +2,7 @@
 using AirportRESRfulApi.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AirportRESRfulApi.Controllers
 {
@@ -16,39 +17,46 @@ namespace AirportRESRfulApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_planeTypesService.Get());
+            return Ok(await _planeTypesService.GetAllAsync());
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var ticket = _planeTypesService.GetById(id);
+            var entity = await _planeTypesService.GetAsync(id);
 
-            if (ticket == null) return NotFound();
+            if (entity == null) return NotFound();
 
-            return Ok(ticket);
+            return Ok(entity);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] PlaneTypeDto entity)
+        public async Task<IActionResult> Post([FromBody] PlaneTypeDto entity)
         {
-            _planeTypesService.Make(entity);
-            return Ok();
+            var result = await _planeTypesService.AddAsync(entity);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] PlaneTypeDto entity)
+        public async Task<IActionResult> Put(int id, [FromBody] PlaneTypeDto entity)
         {
-            _planeTypesService.Update(entity);
-            return Ok();
+            var result = await _planeTypesService.UpdateAsync(entity, id);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete([FromBody] PlaneTypeDto entity)
         {
-            _planeTypesService.Delete(id);
+            var result = await _planeTypesService.DeleteAsync(entity);
+
             return Ok();
         }
     }

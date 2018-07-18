@@ -6,6 +6,7 @@ using AutoMapper;
 using FluentValidation;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AirportRESRfulApi.BLL.Services
 {
@@ -18,21 +19,23 @@ namespace AirportRESRfulApi.BLL.Services
             _validator = validator;
         }
 
-        public override void Make(FlightDto entity)
+        public override async Task<FlightDto> AddAsync(FlightDto entity)
         {
             if (_validator.Validate(entity).IsValid)
-                base.Make(entity);
+                return await base.AddAsync(entity);
+            return null;
         }
 
-        public override void Update(FlightDto entity)
+        public override async Task<FlightDto> UpdateAsync(FlightDto entity, int id)
         {
-            if(_validator.Validate(entity).IsValid)
-                base.Update(entity);
+            if (_validator.Validate(entity).IsValid)
+                return await base.UpdateAsync(entity, id);
+            return null;
         }
 
-        public FlightDto GetByFlightNumberAndDate(string flightNumber, DateTime flightDate)
+        public async Task<FlightDto> GetByFlightNumberAndDate(string flightNumber, DateTime flightDate)
         {
-            var result = _repository.Get(x => x.FlightNumber == flightNumber & x.DepartureTime == flightDate).SingleOrDefault();
+            var result = await _repository.FindAsync(x => x.FlightNumber == flightNumber & x.DepartureTime == flightDate);
             return _mapper.Map<Flight, FlightDto>(result);
         }
     }

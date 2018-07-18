@@ -17,10 +17,10 @@ namespace AirportRESRfulApi.DAL
         }
         
 
-        public int SaveChages()
-        {
-            return context.SaveChanges();
-        }
+        //public int SaveChages()
+        //{
+        //    return context.SaveChanges();
+        //}
 
         public Task<int> SaveChangesAsync()
         {

@@ -4,6 +4,7 @@ using AirportRESRfulApi.DAL.Models;
 using AirportRESRfulApi.Shared.DTO;
 using AutoMapper;
 using FluentValidation;
+using System.Threading.Tasks;
 
 namespace AirportRESRfulApi.BLL.Services
 {
@@ -15,16 +16,18 @@ namespace AirportRESRfulApi.BLL.Services
             _validator = validator;
         }
 
-        public override void Make(DepartureDto entity)
+        public override async Task<DepartureDto> AddAsync(DepartureDto entity)
         {
             if (_validator.Validate(entity).IsValid)
-                base.Make(entity);
+                return await base.AddAsync(entity);
+            return null;
         }
 
-        public override void Update(DepartureDto entity)
+        public override async Task<DepartureDto> UpdateAsync(DepartureDto entity, int id)
         {
             if (_validator.Validate(entity).IsValid)
-                base.Update(entity);
+                return await base.UpdateAsync(entity, id);
+            return null;
         }
     }
 }

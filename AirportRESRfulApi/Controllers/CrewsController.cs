@@ -3,6 +3,7 @@ using AirportRESRfulApi.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AirportRESRfulApi.Controllers
 {
@@ -17,39 +18,46 @@ namespace AirportRESRfulApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_crewsSrvice.Get());
+            return Ok(await _crewsSrvice.GetAllAsync());
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var ticket = _crewsSrvice.GetById(id);
+            var entity = await _crewsSrvice.GetAsync(id);
 
-            if (ticket == null) return NotFound();
+            if (entity == null) return NotFound();
 
-            return Ok(ticket);
+            return Ok(entity);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CrewDto entity)
+        public async Task<IActionResult> Post([FromBody] CrewDto entity)
         {
-            _crewsSrvice.Make(entity);
-            return Ok();
+            var result = await _crewsSrvice.AddAsync(entity);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] CrewDto entity)
+        public async Task<IActionResult> Put(int id, [FromBody] CrewDto entity)
         {
-            _crewsSrvice.Update(entity);
-            return Ok();
+            var result = await _crewsSrvice.UpdateAsync(entity, id);
+
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async  Task<IActionResult> Delete([FromBody] CrewDto entity)
         {
-            _crewsSrvice.Delete(id);
+            var result = await _crewsSrvice.DeleteAsync(entity);
+
             return Ok();
         }
     }

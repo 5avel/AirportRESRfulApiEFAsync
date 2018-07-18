@@ -62,7 +62,7 @@ namespace AirportRESRfulApi.BLL.Tests.Services
             };
 
             //act
-            fs.Make(DtoToMake);
+            fs.MakeAsync(DtoToMake);
 
             var actual = (unitOfWork.Set<Crew>() as FakeRpository<Crew>).createdItem;
 
@@ -90,7 +90,7 @@ namespace AirportRESRfulApi.BLL.Tests.Services
             };
 
             //act
-            fs.Make(DtoToMake);
+            fs.MakeAsync(DtoToMake);
 
             var actual = (unitOfWork.Set<Crew>() as FakeRpository<Crew>).createdItem;
 
@@ -117,7 +117,7 @@ namespace AirportRESRfulApi.BLL.Tests.Services
             };
 
             //act
-            fs.Update(DtoToMake);
+            fs.UpdateAsync(DtoToMake);
 
             var actual = (unitOfWork.Set<Crew>() as FakeRpository<Crew>).updatedItem;
 
@@ -145,7 +145,7 @@ namespace AirportRESRfulApi.BLL.Tests.Services
             };
 
             //act
-            fs.Update(DtoToMake);
+            fs.UpdateAsync(DtoToMake);
 
             var actual = (unitOfWork.Set<Crew>() as FakeRpository<Crew>).updatedItem;
 
