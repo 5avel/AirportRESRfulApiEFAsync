@@ -23,7 +23,7 @@ namespace AirportRESRfulApi.BLL.Validations
             RuleFor(x => x.Experience)
               .NotNull()
               .NotEmpty();
-            RuleFor(x => x.Birthday)
+            RuleFor(x => x.BirthDate)
               .NotNull()
               .NotEmpty();
         }

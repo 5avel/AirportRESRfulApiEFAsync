@@ -4,6 +4,8 @@ using AirportRESRfulApi.DAL.Models;
 using AirportRESRfulApi.Shared.DTO;
 using AutoMapper;
 using FluentValidation;
+using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace AirportRESRfulApi.BLL.Services
@@ -18,9 +20,10 @@ namespace AirportRESRfulApi.BLL.Services
 
         public override async Task<CrewDto> AddAsync(CrewDto entity)
         {
-            if (_validator.Validate(entity).IsValid)
+            entity.Id = 0;
+            //if (_validator.Validate(entity).IsValid)
                 return await base.AddAsync(entity);
-            return null;
+            //return null;
         }
 
         public override async Task<CrewDto> UpdateAsync(CrewDto entity, int id)
@@ -28,6 +31,11 @@ namespace AirportRESRfulApi.BLL.Services
             if (_validator.Validate(entity).IsValid)
                 return await base.UpdateAsync(entity, id);
             return null;
+        }
+
+        public async Task<CrewDto> FindeAsync(Expression<Func<Crew, bool>> filter)
+        {
+            return _mapper.Map<Crew, CrewDto>(await _repository.FindAsync(filter));
         }
     }
 }

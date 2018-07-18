@@ -32,7 +32,7 @@ namespace AirportRESRfulApi.BLL.Services
 
         public async Task<TicketDto> ReturnByIdAsync(int id)
         {
-            var entity = _repository.Get(x => x.Id == id).SingleOrDefault();
+            var entity = await _repository.FindAsync(x => x.Id == id);
 
             if (entity == null) return null;
 
@@ -45,7 +45,7 @@ namespace AirportRESRfulApi.BLL.Services
 
         public async Task<TicketDto> BuyByIdAsync(int id)
         {
-            var entity = _repository.Get(x => x.Id == id).SingleOrDefault();
+            var entity = await _repository.FindAsync(x => x.Id == id);
 
             if (entity == null) return null;
 

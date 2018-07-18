@@ -7,9 +7,9 @@ namespace AirportRESRfulApi.BLL.Validations
     {
         public CrewsValidator()
         {
-            RuleFor(x => x.DepartureId)
-                .NotNull()
-                .NotEmpty();
+            //RuleFor(x => x.DepartureId)
+            //    .NotNull()
+            //    .NotEmpty();
         }
         
     }

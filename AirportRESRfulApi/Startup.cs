@@ -40,6 +40,7 @@ namespace AirportRESRfulApi
             services.AddScoped<IValidator<PlaneDto>, PlanesValidator>();
             services.AddScoped<IValidator<PlaneTypeDto>, PlaneTypesValidator>();
 
+            services.AddScoped<ICrewsRemoteService, CrewsRemoteService>();
 
             // DAL Context
             services.AddDbContext<AirportContext>();
